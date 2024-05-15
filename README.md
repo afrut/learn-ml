@@ -17,5 +17,5 @@
   pyenv install 3.11.8
   pyenv virtualenv 3.11.8 learn-ml
   pyenv local learn-ml
-  pip install -r requirements.txt
+  make lock_dependencies
   ```
