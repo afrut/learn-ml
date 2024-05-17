@@ -5,17 +5,14 @@
 - Install Python and create virtual environment
 
   ```
-  sudo apt-get install \
-    libbz2-dev \
-    libssl-dev \
-    libncurses5-dev \
-    libncursesw5-dev \
-    libreadline6-dev \
-    libffi-dev \
-    libsqlite3-dev \
-    liblzma-dev
-  pyenv install 3.11.8
-  pyenv virtualenv 3.11.8 learn-ml
+  sudo apt update
+  sudo apt-get install python3
+  sudo apt-get install python3-pip
+  sudo apt install build-essential libssl-dev zlib1g-dev \
+    libbz2-dev libreadline-dev libsqlite3-dev curl \
+    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+  pyenv install 3.12.3
+  pyenv virtualenv 3.12.3 learn-ml
   pyenv local learn-ml
-  make lock_dependencies
+  pip install -r requirements.txt
   ```
