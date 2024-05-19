@@ -25,7 +25,7 @@ install_requirements:
 	pip install -r requirements.txt
 
 clean:
-	@rm visualization/outputs/*
+	@rm visualization/outputs/* 2>&1 > /dev/null | true
 
 lock_dependencies:
 	pip-compile requirements.in
@@ -39,4 +39,5 @@ jupyter_notebook:
 plots: \
 	clean
 	@DISPLAY=:0 \
-	python visualization/plots.py
+	PYTHONPATH=$$(realpath "modules") \
+	python visualization/visualization.py
