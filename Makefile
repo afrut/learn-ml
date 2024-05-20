@@ -29,10 +29,7 @@ create_virtual_env:
 	pyenv local learn-ml
 
 build_dependencies:
-	@CWD=$$(pwd) && \
-	cd modules && \
-	make && \
-	cd $${CWD}
+	@python -m build modules
 
 install_requirements:
 	@pip install -r requirements.txt && \
@@ -45,7 +42,7 @@ lock_dependencies:
 	@pip-compile requirements.in
 
 format_data:
-	@python data/format_data.py
+	@python format_data.py
 
 jupyter_notebook:
 	@jupyter notebook --no-browser &
