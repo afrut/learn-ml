@@ -1,7 +1,11 @@
 import math
+import os
+import pickle as pkl
+import warnings
 
 import numpy as np
 import pandas as pd
+from IPython import embed
 
 
 # ------------------------------------------------------------
@@ -166,3 +170,21 @@ def numericColumns(df):
     isNumeric = np.vectorize(lambda x: np.issubdtype(x, np.number))
     colNumeric = isNumeric(df.dtypes)
     return list(df.columns[colNumeric])
+
+
+def one_hot_encode(df: pd.DataFrame, columns: list[str]):
+    one_hot_encoded = pd.get_dummies(df[columns], prefix=columns).astype(int)
+    df = df.drop(columns, axis=1)
+    return pd.concat([df, one_hot_encoded], axis=1)
+
+
+if __name__ == "__main__":
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.abspath(os.path.join(script_dir, "../data"))
+
+    # Test one-hot encoding
+    with open(os.path.join(data_dir, "adult.pkl"), "rb") as fl:
+        df = pkl.load(fl)
+        columns_to_ohe = ["workclass", "education", "marital-status", "sex"]
+        df = one_hot_encode(df, columns=columns_to_ohe)
+        embed()
