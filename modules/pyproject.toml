@@ -1,0 +1,15 @@
+# Use setuptools as the build backend
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "learn_ml_modules"
+version = "0.0.1"
+description = "A package that contains custom dependencies for the learn-ml repository"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
