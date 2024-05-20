@@ -2,10 +2,8 @@ import os
 import pickle as pk
 import re
 
-import dfutl
 import numpy as np
 import pandas as pd
-from IPython import embed
 
 if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -28,7 +26,7 @@ if __name__ == "__main__":
     data_file = os.path.join(script_dir, "data/bostonHousing/data")
     raw_df = pd.read_csv(
         data_file,
-        sep="\s+",
+        sep=r"\s+",
         skiprows=22,
         header=None,
     )
