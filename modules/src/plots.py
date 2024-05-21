@@ -1,4 +1,6 @@
 import math
+import os
+import pickle as pkl
 
 import dfutl
 import matplotlib.cm as cm
@@ -7,6 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from IPython import embed
 from scipy import stats
 
 colors = cm.get_cmap("tab20").colors
@@ -283,14 +286,14 @@ def heatmap(
     if xcolumns is None:
         xcolumns = dfutl.numericColumns(df)
     else:
-        xcolumns = dfutil.numericColumns(df.loc[:, xcolumns])
+        xcolumns = dfutl.numericColumns(df.loc[:, xcolumns])
     if ycolumns is None:
         ycolumns = dfutl.numericColumns(df)
     else:
-        ycolumns = dfutil.numericColumns(df.loc[:, ycolumns])
+        ycolumns = dfutl.numericColumns(df.loc[:, ycolumns])
 
     # calculate correlations
-    dfCorr = df.corr()
+    dfCorr = df.loc[:, dfutl.numericColumns(df)].corr()
     dfCorr = dfCorr.loc[xcolumns, ycolumns]
 
     # bi-directionally mask correlations that are less than a certain threshold
@@ -812,6 +815,9 @@ def probplot(
             # use values between the 25th and 75th percentile to plot a line
             idx = list(range(math.ceil(0.25 * n), math.floor(0.75 * n) + 1))
             xline = x[idx]
+            if min(xline) == max(xline):
+                # Ignore if the same value
+                continue
             yline = z[idx]
             m, b, _, _, _ = stats.linregress(xline, yline)
             yreg = (m * x) + b
@@ -845,3 +851,15 @@ def probplot(
 
         if close:
             plt.close()
+
+
+if __name__ == "__main__":
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    with open(os.path.join(script_dir, "../../data/bankMarketing.pkl"), "rb") as fl:
+        df = pkl.load(fl)
+    probplot(
+        df,
+        save=True,
+        savepath="probplot.png",
+        close=True,
+    )
