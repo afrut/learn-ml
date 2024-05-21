@@ -3,7 +3,6 @@ import pickle as pk
 
 import datacfg
 import plots
-from IPython import embed
 
 if __name__ == "__main__":
     datacfg = datacfg.datacfg()

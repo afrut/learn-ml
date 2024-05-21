@@ -47,8 +47,6 @@ format_data:
 jupyter_notebook:
 	@jupyter notebook --no-browser &
 
-plots: \
+create_plots: \
 	clean
-	@DISPLAY=:0 \
-	PYTHONPATH=$$(realpath "modules") \
-	python visualization/visualization.py
+	python create_plots.py
