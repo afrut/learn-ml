@@ -823,7 +823,7 @@ def probplot(
             yreg = (m * x) + b
 
             # add an axes to the figure
-            if ax is None:
+            if not plotOne:
                 ax = fig.add_subplot(nrows, ncols, cntAx + 1)
             lines1 = ax.plot(x, z, marker="o", linewidth=0)
             lines2 = ax.plot(x, yreg, color=RED, linewidth=2)
