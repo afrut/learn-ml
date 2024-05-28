@@ -1,4 +1,6 @@
 .ipynb_checkpoints
 .mypy_cache
 visualization/outputs/
+experiments/*.png
+experiments/*.pkl
 __pycache__

@@ -50,3 +50,8 @@ jupyter_notebook:
 create_plots: \
 	clean
 	python create_plots.py
+
+experiments: \
+	python ./experiments/multilinear_interpoloation.py && \
+	python ./experiments/standardScaling_classification.py && \
+	python ./experiments/standardScaling_regression.py
