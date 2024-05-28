@@ -22,6 +22,7 @@ def eda(
     targets=None,
     removeOutliers: bool = False,
     datasetname: str = "",
+    output_dir: str | None = None,
 ):
 
     # load the data
@@ -113,24 +114,21 @@ def eda(
     # ----------------------------------------------------------------------
     # visualization
     # ----------------------------------------------------------------------
-    plt.close("all")
-
-    save = True
-    if len(datasetname) > 0:
-        savepath = ".\\png\\{0}\\eda\\".format(datasetname)
-        isdir = os.path.isdir(savepath)
-        if not isdir:
-            os.makedirs(savepath)
-    else:
-        savepath = ".\\png\\"
+    save = False
+    if output_dir:
+        save = True
+        if len(datasetname) > 0:
+            savepath = f"{output_dir}/{0}".format(datasetname)
+            isdir = os.path.isdir(savepath)
+            if not isdir:
+                os.makedirs(savepath)
+        else:
+            savepath = output_dir
 
     plots.boxplot(dfNumeric, save=save, savepath=savepath)
     plots.histogram(df, tightLayout=True, save=save, savepath=savepath)
     plots.scattermatrix(dfNumeric, save=save, savepath=savepath)
     plots.heatmap(dfNumeric, correlation=0.5, save=save, savepath=savepath)
-
-    # plt.show()
-    plt.close("all")
 
     return df
 
@@ -139,6 +137,7 @@ if __name__ == "__main__":
     # specify the following variables
     cfg = dict()
     cfg = datacfg.datacfg()
+    script_dir = os.path.dirname(os.path.abspath(__file__))
 
     # for all datasets
     for datasetname in cfg.keys():
@@ -153,4 +152,5 @@ if __name__ == "__main__":
             targets=targets,
             removeOutliers=removeOutliers,
             datasetname=datasetname,
+            output_dir=f"{script_dir}/visualization/outputs/eda",
         )
