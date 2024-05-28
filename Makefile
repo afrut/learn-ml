@@ -55,3 +55,6 @@ experiments: \
 	python ./experiments/multilinear_interpoloation.py && \
 	python ./experiments/standardScaling_classification.py && \
 	python ./experiments/standardScaling_regression.py
+
+eda:
+	python eda.py
