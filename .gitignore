@@ -3,4 +3,6 @@
 visualization/outputs/
 experiments/*.png
 experiments/*.pkl
+statistics/distributions/*.png
 __pycache__
+*/**/*.egg-info/
