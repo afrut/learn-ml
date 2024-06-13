@@ -1,6 +1,10 @@
 all: \
 	lock_dependencies \
 	format_data \
+	build_dependencies \
+	create_plots \
+	eda \
+	experiments \
 	jupyter_notebook
 
 # Setup workflow. Execute targets individually
