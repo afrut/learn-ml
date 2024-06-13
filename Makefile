@@ -45,7 +45,7 @@ format_data:
 	@python format_data.py
 
 jupyter_notebook:
-	@jupyter notebook --no-browser &
+	@jupyter notebook --no-browser
 
 create_plots: \
 	clean
