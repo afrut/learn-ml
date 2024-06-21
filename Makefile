@@ -1,7 +1,7 @@
 all: \
 	lock_dependencies \
 	format_data \
-	build_dependencies \
+	build_modules \
 	create_plots \
 	eda \
 	experiments \
@@ -11,12 +11,12 @@ all: \
 setup: \
 	install_python \
 	create_virtual_env \
-	build_dependencies \
+	build_modules \
 	install_requirements
 
 setup_environment: \
 	create_virtual_env \
-	build_dependencies \
+	build_modules \
 	install_requirements
 
 install_python:
@@ -32,12 +32,17 @@ create_virtual_env:
 	pyenv virtualenv 3.12.3 learn-ml && \
 	pyenv local learn-ml
 
-build_dependencies:
+build_modules:
 	@python -m build modules
+
+install_modules:
+	@pip install modules/dist/*.whl --force-reinstall
+
+build_and_install_modules: build_modules install_modules
 
 install_requirements:
 	@pip install -r requirements.txt && \
-	pip install modules/dist/*.tar.gz
+	pip install modules/dist/*.whl
 
 clean:
 	@rm visualization/outputs/* 2>&1 > /dev/null | true
