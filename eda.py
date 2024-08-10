@@ -118,17 +118,32 @@ def eda(
     if output_dir:
         save = True
         if len(datasetname) > 0:
-            savepath = f"{output_dir}/{0}".format(datasetname)
+            savepath = f"{output_dir}/{datasetname}/"
             isdir = os.path.isdir(savepath)
             if not isdir:
                 os.makedirs(savepath)
         else:
             savepath = output_dir
+    print(savepath)
 
-    plots.boxplot(dfNumeric, save=save, savepath=savepath)
-    plots.histogram(df, tightLayout=True, save=save, savepath=savepath)
-    plots.scattermatrix(dfNumeric, save=save, savepath=savepath)
-    plots.heatmap(dfNumeric, correlation=0.5, save=save, savepath=savepath)
+    plots.boxplot(
+        dfNumeric, save=save, savepath=savepath + f"{datasetname}_boxplot.png"
+    )
+    plots.histogram(
+        df,
+        tight_layout=True,
+        save=save,
+        save_path=savepath + f"{datasetname}_histogram.png",
+    )
+    plots.scattermatrix(
+        dfNumeric, save=save, savepath=savepath + f"{datasetname}_scattermatrix.png"
+    )
+    plots.heatmap(
+        dfNumeric,
+        correlation=0.5,
+        save=save,
+        savepath=savepath + f"{datasetname}_heatmap.png",
+    )
 
     return df
 
@@ -141,10 +156,11 @@ if __name__ == "__main__":
 
     # for all datasets
     for datasetname in cfg.keys():
+        print(datasetname)
         filepath = cfg[datasetname]["filepath"]
-        features = cfg[datasetname]["features"]
+        features = cfg[datasetname].get("features")
         targets = cfg[datasetname]["targets"]
-        removeOutliers = cfg[datasetname]["removeOutliers"]
+        removeOutliers = cfg[datasetname].get("removeOutliers", False)
 
         df = eda(
             filepath=filepath,

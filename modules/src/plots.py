@@ -84,33 +84,30 @@ def boxplot(
 # Specification:
 # - Take Dataframe as input and plot all columns.
 # - Specify the number of bins to use between min and max.
-# - If binWidth is provided, use this to determine the number of bins instead.
+# - If bin_width is provided, use this to determine the number of bins instead.
 def histogram(
-    df,
-    fig=None,
+    df: pd.DataFrame,
+    bins: list[float | int] | int | None = None,
+    bin_width: float | None = None,
+    fig: plt.Figure | None = None,
     figsize: tuple = (14.4, 9),
     ax=None,
-    numBins: int = 10,
-    binWidth: float = None,
-    ylim: list = None,
-    xlabel: list = None,
-    xlabelfontsize: int = 10,
-    ylabel: list = None,
+    ylim: tuple | None = None,
+    xlabel: list | None = None,
+    ylabel: list | None = None,
     xticklabelrotation: int = 30,
-    tightLayout=True,
-    title: str = None,
+    tight_layout=True,
+    title: str | None = None,
     save: bool = False,
-    savepath: str = ".\\png\\histogram.png",
-    show: bool = False,
-    close: bool = False,
-):
+    save_path: str | None = None,
+) -> tuple[list[int], list[float]]:
 
     numVar = len(df.columns)
 
     if ax is not None and fig is not None:
-        plotOne = True
+        create_fig = False
     else:
-        plotOne = False
+        create_fig = True
 
     # infer data types of the input DataFrame
     isNumeric = np.vectorize(lambda x: np.issubdtype(x, np.number))
@@ -128,8 +125,10 @@ def histogram(
             numplots = nrows * ncols
 
         # Modify figsize. Every 3 plots = 9 in in height.
-        if not (plotOne):
-            figsize = (14.4, int(nrows * 3))
+        if create_fig:
+            # Modify for multiple variables
+            if numVar > 1:
+                figsize = (14.4, int(nrows * 3))
             fig = plt.figure(figsize=figsize)
 
         # loop through all variables and plot them on the corresponding axes
@@ -142,26 +141,19 @@ def histogram(
             if colNumeric[cntAx]:
 
                 # ----------------------------------------
-                # infer the bins through the binWidth
+                # infer the bins through the bin_width
                 # ----------------------------------------
-                if binWidth is not None:
+                if bin_width is not None:
                     # segregate data by the thickness of each bin
                     bins = list()
-                    binStopVal = srs.max() + binWidth
-                    binStartVal = srs.min()
-                    bins = np.arange(binStartVal, binStopVal, binWidth)
-
-                # ----------------------------------------
-                # infer the bins through the number of bins
-                # ----------------------------------------
-                elif numBins is not None:
-                    # segregate data by the number of bins
-                    bins = np.linspace(srs.min(), srs.max(), numBins + 1)
+                    binStopVal = srs.max() + (2 * bin_width)
+                    binStartVal = srs.min() - bin_width
+                    bins = np.arange(binStartVal, binStopVal, bin_width)
 
                 # ----------------------------------------
                 # create the figure and plot
                 # ----------------------------------------
-                if not (plotOne):
+                if create_fig:
                     ax = fig.add_subplot(nrows, ncols, cntAx + 1)
                 lsVals, lsBins, _ = ax.hist(srs, bins=bins)
 
@@ -173,7 +165,8 @@ def histogram(
                 ax.grid(linewidth=0.5)
                 ax.set_title(title)
 
-                ax.set_ylim((lsVals.min(), lsVals.max()))
+                _ylim = (lsVals.min(), lsVals.max()) if ylim is None else ylim
+                ax.set_ylim(_ylim)
 
                 if xlabel is not None:
                     ax.set_xlabel(xlabel[cntAx])
@@ -204,22 +197,14 @@ def histogram(
             # format xticklabels
             formatxticklabels(ax, xticklabelrotation=xticklabelrotation)
 
-            if plotOne:
-                break
-
-        if fig is not None and tightLayout:
+        if fig is not None and tight_layout:
             fig.tight_layout()
 
         if save:
-            if savepath is not None and savepath[-1:] == "\\":
-                savepath = savepath + "histogram.png"
-            plt.savefig(savepath, format="png")
-
-        if show:
-            plt.show()
-
-        if close:
-            plt.close()
+            if save_path is None:
+                save_path = "histogram.png"
+            plt.savefig(save_path, format="png")
+    return (lsVals, lsBins)
 
 
 # ----------------------------------------
@@ -855,11 +840,10 @@ def probplot(
 
 if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    with open(os.path.join(script_dir, "../../data/bankMarketing.pkl"), "rb") as fl:
-        df = pkl.load(fl)
-    probplot(
-        df,
-        save=True,
-        savepath="probplot.png",
-        close=True,
-    )
+    r1 = [1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3]
+    r2 = [1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 4]
+    data = np.array([r1, r2]).transpose()
+    print(data)
+    df = pd.DataFrame(data=data, columns=["values", "values+1"])
+    vals, bins = histogram(df=df, save=True, bin_width=0.1)
+    # print(vals, bins)

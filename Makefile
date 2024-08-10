@@ -1,7 +1,7 @@
 all: \
 	lock_dependencies \
 	format_data \
-	build_modules \
+	build_and_install_modules \
 	create_plots \
 	eda \
 	experiments \

@@ -20,8 +20,7 @@ if __name__ == "__main__":
         plots.histogram(
             df,
             save=True,
-            savepath="./visualization/outputs/plots/" + datasetname + "_histogram.png",
-            close=True,
+            save_path="./visualization/outputs/plots/" + datasetname + "_histogram.png",
         )
 
         plots.boxplot(

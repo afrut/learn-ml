@@ -25,18 +25,12 @@ if __name__ == "__main__":
         savepath=f"{output_path}/iris_stemleaf.txt",
     )
 
-    plots.histogram(
-        df, save=True, savepath=f"{output_path}/iris_histogram.png", close=True
-    )
+    plots.histogram(df, save=True, save_path=f"{output_path}/iris_histogram.png")
 
-    plots.boxplot(df, save=True, savepath=f"{output_path}/iris_boxplot.png", close=True)
+    plots.boxplot(df, save=True, savepath=f"{output_path}/iris_boxplot.png")
 
-    plots.scattermatrix(
-        df, save=True, savepath=f"{output_path}/iris_scattermatrix.png", close=True
-    )
+    plots.scattermatrix(df, save=True, savepath=f"{output_path}/iris_scattermatrix.png")
 
-    plots.heatmap(df, save=True, savepath=f"{output_path}/iris_heatmap.png", close=True)
+    plots.heatmap(df, save=True, savepath=f"{output_path}/iris_heatmap.png")
 
-    plots.probplot(
-        df, save=True, savepath=f"{output_path}/iris_probplot.png", close=True
-    )
+    plots.probplot(df, save=True, savepath=f"{output_path}/iris_probplot.png")
