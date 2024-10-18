@@ -12,7 +12,9 @@ setup: \
 	install_python \
 	create_virtual_env \
 	build_modules \
-	install_requirements
+	install_requirements \
+	init_dirs \
+	kaggle_symlinks
 
 setup_environment: \
 	create_virtual_env \
@@ -44,6 +46,9 @@ install_requirements:
 	@pip install -r requirements.txt && \
 	pip install modules/dist/*.whl
 
+init_dirs:
+	@sudo mkdir -p /kaggle/input
+
 clean:
 	@rm visualization/outputs/* 2>&1 > /dev/null | true
 
@@ -53,8 +58,14 @@ lock_dependencies:
 format_data:
 	@python format_data.py
 
+kaggle_symlinks:
+	@sudo rm -rf /kaggle/input/titanic && sudo ln -s $(realpath ./kaggle/titanic/data) /kaggle/input/titanic
+
 jupyter_notebook:
 	@jupyter notebook --no-browser
+
+jupyter_lab:
+	@jupyter lab --no-browser
 
 create_plots: \
 	clean

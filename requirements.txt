@@ -150,7 +150,9 @@ jupyter-server==2.14.0
 jupyter-server-terminals==0.5.3
     # via jupyter-server
 jupyterlab==4.1.8
-    # via notebook
+    # via
+    #   -r requirements.in
+    #   notebook
 jupyterlab-pygments==0.3.0
     # via nbconvert
 jupyterlab-server==2.27.1
