@@ -59,7 +59,8 @@ format_data:
 	@python format_data.py
 
 kaggle_symlinks:
-	@sudo rm -rf /kaggle/input/titanic && sudo ln -s $(realpath ./kaggle/titanic/data) /kaggle/input/titanic
+	@sudo rm -rf /kaggle/input/titanic && sudo ln -s $(realpath ./kaggle/titanic/data) /kaggle/input/titanic && \
+	sudo rm -rf /kaggle/input/home-data-for-ml-course && sudo ln -s $(realpath ./kaggle/home-data-for-ml-course/data) /kaggle/input/home-data-for-ml-course
 
 jupyter_notebook:
 	@jupyter notebook --no-browser
