@@ -53,7 +53,8 @@ clean:
 	@rm visualization/outputs/* 2>&1 > /dev/null | true
 
 lock_dependencies:
-	@pip-compile requirements.in
+	@rm -f requirements.txt && \
+	pip-compile requirements.in
 
 format_data:
 	@python format_data.py
