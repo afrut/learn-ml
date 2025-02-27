@@ -11,15 +11,12 @@ all: \
 setup: \
 	install_python \
 	create_virtual_env \
-	build_modules \
+	install_pip_tools \
+	lock_dependencies \
 	install_requirements \
+	build_and_install_modules \
 	init_dirs \
 	kaggle_symlinks
-
-setup_environment: \
-	create_virtual_env \
-	build_modules \
-	install_requirements
 
 install_python:
 	@sudo apt update && \
@@ -27,12 +24,24 @@ install_python:
 	sudo apt install -y build-essential libssl-dev zlib1g-dev \
 		libbz2-dev libreadline-dev libsqlite3-dev curl \
 		libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev && \
-	./scripts/install_pyenv.sh
+	./scripts/install_pyenv.sh && \
+	pyenv install 3.12.3
 
 create_virtual_env:
-	@pyenv install 3.12.3 && \
-	pyenv virtualenv 3.12.3 learn-ml && \
+	@pyenv virtualenv 3.12.3 learn-ml && \
 	pyenv local learn-ml
+
+install_pip_tools:
+	@pip install pip-tools==7.4.1
+
+install_requirements:
+	@pip install -r requirements.txt
+
+lock_dependencies:
+	@rm -f requirements.txt && \
+	pip-compile requirements.in
+
+build_and_install_modules: build_modules install_modules
 
 build_modules:
 	@python -m build modules
@@ -40,21 +49,12 @@ build_modules:
 install_modules:
 	@pip install modules/dist/*.whl --force-reinstall
 
-build_and_install_modules: build_modules install_modules
-
-install_requirements:
-	@pip install -r requirements.txt && \
-	pip install modules/dist/*.whl
-
 init_dirs:
 	@sudo mkdir -p /kaggle/input
 
 clean:
 	@rm visualization/outputs/* 2>&1 > /dev/null | true
 
-lock_dependencies:
-	@rm -f requirements.txt && \
-	pip-compile requirements.in
 
 format_data:
 	@python format_data.py
