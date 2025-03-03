@@ -252,7 +252,7 @@ nvidia-nccl-cu12==2.25.1
     # via xgboost
 opt-einsum==3.4.0
     # via tensorflow
-optree==0.14.0
+optree==0.14.1
     # via keras
 overrides==7.7.0
     # via jupyter-server
