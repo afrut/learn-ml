@@ -4,6 +4,7 @@ jupyterlab==4.3.5
 lightgbm==4.6.0
 matplotlib==3.8.4
 pandas==2.2.2
+pip-tools==7.4.1
 scikit-learn==1.4.2
 seaborn==0.13.2
 stemgraphic==0.9.1
