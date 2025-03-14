@@ -1,6 +1,7 @@
 # sudo apt install make
 
-PYTHON_VERSION=3.12.9
+PYTHON_VERSION=3.10.16
+VENV_NAME=learn-ml
 
 all: \
 	lock_dependencies \
@@ -33,8 +34,9 @@ install_pyenv:
 
 create_venv:
 	@pyenv install ${PYTHON_VERSION} --skip-existing && \
-	pyenv virtualenv ${PYTHON_VERSION} learn-ml -f && \
-	pyenv local learn-ml
+	pyenv uninstall --force ${VENV_NAME} && \
+	pyenv virtualenv ${PYTHON_VERSION} ${VENV_NAME} -f && \
+	pyenv local ${VENV_NAME}
 
 install_requirements:
 	@pip install -r requirements.txt
