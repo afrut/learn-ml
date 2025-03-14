@@ -1,3 +1,7 @@
+# sudo apt install make
+
+PYTHON_VERSION=3.12.9
+
 all: \
 	lock_dependencies \
 	format_data \
@@ -10,9 +14,8 @@ all: \
 # Setup workflow. Execute targets individually
 setup: \
 	install_python \
-	create_virtual_env \
-	install_pip_tools \
-	lock_dependencies \
+	install_pyenv \
+	create_venv \
 	install_requirements \
 	build_and_install_modules \
 	init_dirs \
@@ -23,23 +26,21 @@ install_python:
 	sudo apt-get install -y python3 python3-pip && \
 	sudo apt install -y build-essential libssl-dev zlib1g-dev \
 		libbz2-dev libreadline-dev libsqlite3-dev curl \
-		libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev && \
-	./scripts/install_pyenv.sh && \
-	pyenv install 3.12.3
+		libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 
-create_virtual_env:
-	@pyenv virtualenv 3.12.3 learn-ml && \
+install_pyenv:
+	./scripts/install_pyenv.sh
+
+create_venv:
+	@pyenv install ${PYTHON_VERSION} --skip-existing && \
+	pyenv virtualenv ${PYTHON_VERSION} learn-ml -f && \
 	pyenv local learn-ml
-
-install_pip_tools:
-	@pip install pip-tools==7.4.1
 
 install_requirements:
 	@pip install -r requirements.txt
 
 lock_dependencies:
-	@rm -f requirements.txt && \
-	pip-compile requirements.in
+	@pip-compile requirements.in
 
 build_and_install_modules: build_modules install_modules
 
