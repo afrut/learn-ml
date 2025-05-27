@@ -70,7 +70,8 @@ jupyter_notebook:
 	@jupyter notebook --no-browser
 
 jupyter_lab:
-	@jupyter lab --no-browser
+	@jupyter lab --no-browser \
+		--NotebookApp.token="abcd"
 
 create_plots: \
 	clean
