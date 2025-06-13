@@ -11,4 +11,5 @@ seaborn==0.13.2
 stemgraphic==0.9.1
 tfx==1.16.0
 tensorflow==2.16.2
+tensorflow-decision-forests==1.9.2
 xgboost==3.0.0
